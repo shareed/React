@@ -1,5 +1,7 @@
-import React from 'react';
-import {BrowserRouter, Route, Link} from 'react-router-dom'
+import React, { useState }  from 'react';
+import {Route, Link, Switch} from 'react-router-dom'
+import data from "./data"; // PULL IN DATA
+import Store from './Components/Store'
 
 function Home(props) {
   debugger
@@ -19,19 +21,32 @@ function Ideas(props) {
 
 
 function App() {
+   // we use data in a couple of components, so instead of pulling it into state inside of child components,
+  // we manage state in the parent component (App), and pass into our children so that all data is kept in sync across app
+  // this also limits calls to an API if data were from API instead of static file
+  const [products, setProducts] = useState(data);
   return (
     <div className="App">
       <header className="App-header">
-        <BrowserRouter>
         <Link to= '/'>Home</Link>
         <Link to= '/contact'>Contact</Link>
         <Link to= '/about'>About</Link>
         <Link to= '/ideas'>Ideas</Link>
+        <Link to= '/store'>STORE</Link>
         <Route exact path = '/' component = {Home} />
         <Route path = '/contact' component = {Contact} />
         <Route path = '/about' component = {About} />
         <Route path = '/ideas' component = {Ideas} />
-        </BrowserRouter>
+        <Route path = '/store' products={products} component = {Store} />
+
+        {/* <Switch>
+        <Route path = '/' component = {Home} />
+        <Route path = '/contact' component = {Contact} />
+        <Route path = '/about' component = {About} />
+        <Route path = '/ideas' component = {Ideas} />
+        <Route path = '/store' component = {Store} />
+        
+        </Switch> */}
        
       </header>
     </div>
